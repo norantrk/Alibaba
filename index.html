@@ -1,0 +1,166 @@
+
+<!DOCTYPE html>
+
+<html>
+<style>
+.RadialProgress {
+  --hue: 200;
+  --holesize: 60%;
+  --track-bg: hsl(200, 34%, 92%);
+  
+  height: 15vmin;
+  width: 15vmin;
+  min-width: 50px;
+  min-height: 50px;
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  place-items: center;
+  position: relative;
+  font-weight: 500;
+  font-size: max(5vmin, 1.4rem)
+}
+
+.RadialProgress::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-radius: 50%;
+    z-index: -1;
+    background: conic-gradient(
+      hsl(var(--hue) 100% 70%),
+      hsl(var(--hue) 100% 40%),
+      hsl(var(--hue) 100% 70%) var(--progress, 0%),
+      var(--track-bg) var(--progress, 0%) 10%
+    );
+    
+    -webkit-mask-image: radial-gradient(
+      transparent var(--holesize),
+      black calc(var(--holesize) + 0.5px)
+    );
+    
+            mask-image: radial-gradient(
+      transparent var(--holesize),
+      black calc(var(--holesize) + 0.5px)
+    );
+  }
+html {
+  height: 50%;
+  width: 50%;
+  background: #f8fcff;
+}
+
+body {
+  min-height: 50%;
+  min-width: 50%;
+  box-sizing: border-box;
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  place-content: center;
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, sans-serif;
+}
+
+span {
+  white-space: nowrap;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  font-size: 0.5rem;
+  display: flex;
+  align-items: center
+}
+
+span img {
+    margin: 0 0 0 1px;
+  }
+
+input {
+  margin: 10px 0; 
+}
+</style>
+
+<div
+  class="RadialProgress"
+  role="progressbar"
+  aria-valuenow="25"
+  aria-valuemin="0"
+  aria-valuemax="100"
+  div align="justify"
+  
+></div>
+<img src="https://www.svgrepo.com/show/280519/oxygen-breath.svg" alt="oxygenG" width="150" height="150">
+
+<input type="range" value="25" min="0" max="100" />
+<script>
+const controller = document.querySelector('input[type=range]');
+const radialProgress = document.querySelector('.RadialProgress');
+
+const setProgress = (progress) => {
+  const value = `${progress}%`;
+  radialProgress.style.setProperty('--progress', value)
+  radialProgress.innerHTML = value
+  radialProgress.setAttribute('aria-valuenow', value)
+}
+
+setProgress(controller.value)
+controller.oninput = () => {
+  setProgress(controller.value)
+}
+
+</script>
+
+
+
+
+</body>
+</html>
+
+
+
+
+<head>
+   <title>Open webcam using JavaScript. </title>
+</head>
+<body>
+   <h1>Surveillance Ambulance Streaming</h1>
+   <br/>
+   <button id="startBtn" onclick="openCam()">Open Webcam</button>
+   <br/><br/>
+   <video id="videoCam"></video>
+   <script>
+      function openCam(){
+         let All_mediaDevices=navigator.mediaDevices
+         if (!All_mediaDevices || !All_mediaDevices.getUserMedia) {
+            console.log("getUserMedia() not supported.");
+            return;
+         }
+         All_mediaDevices.getUserMedia({
+            audio: true,
+            video: true
+         })
+         .then(function(vidStream) {
+            var video = document.getElementById('videoCam');
+            if ("srcObject" in video) {
+               video.srcObject = vidStream;
+            } else {
+               video.src = window.URL.createObjectURL(vidStream);
+            }
+            video.onloadedmetadata = function(e) {
+               video.play();
+            };
+         })
+         .catch(function(e) {
+            console.log(e.name + ": " + e.message);
+         });
+      }
+   </script>
+</body>
+
+</html>
+
+
+
